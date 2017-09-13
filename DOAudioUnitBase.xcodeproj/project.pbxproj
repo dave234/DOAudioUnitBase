@@ -13,26 +13,7 @@
 		555960021F69D0C0000893E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 555960011F69D0C0000893E3 /* Assets.xcassets */; };
 		555960051F69D0C0000893E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 555960031F69D0C0000893E3 /* LaunchScreen.storyboard */; };
 		555960081F69D0C0000893E3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 555960071F69D0C0000893E3 /* main.m */; };
-		555960121F69D0C0000893E3 /* DOAudioUnitBaseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 555960111F69D0C0000893E3 /* DOAudioUnitBaseTests.m */; };
-		5559601D1F69D0C0000893E3 /* DOAudioUnitBaseUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5559601C1F69D0C0000893E3 /* DOAudioUnitBaseUITests.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		5559600E1F69D0C0000893E3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 55595FED1F69D0C0000893E3 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 55595FF41F69D0C0000893E3;
-			remoteInfo = DOAudioUnitBase;
-		};
-		555960191F69D0C0000893E3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 55595FED1F69D0C0000893E3 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 55595FF41F69D0C0000893E3;
-			remoteInfo = DOAudioUnitBase;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		55595FF51F69D0C0000893E3 /* DOAudioUnitBase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DOAudioUnitBase.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -45,30 +26,10 @@
 		555960041F69D0C0000893E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		555960061F69D0C0000893E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		555960071F69D0C0000893E3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		5559600D1F69D0C0000893E3 /* DOAudioUnitBaseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DOAudioUnitBaseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		555960111F69D0C0000893E3 /* DOAudioUnitBaseTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DOAudioUnitBaseTests.m; sourceTree = "<group>"; };
-		555960131F69D0C0000893E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		555960181F69D0C0000893E3 /* DOAudioUnitBaseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DOAudioUnitBaseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5559601C1F69D0C0000893E3 /* DOAudioUnitBaseUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DOAudioUnitBaseUITests.m; sourceTree = "<group>"; };
-		5559601E1F69D0C0000893E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		55595FF21F69D0C0000893E3 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5559600A1F69D0C0000893E3 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		555960151F69D0C0000893E3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -82,8 +43,6 @@
 			isa = PBXGroup;
 			children = (
 				55595FF71F69D0C0000893E3 /* DOAudioUnitBase */,
-				555960101F69D0C0000893E3 /* DOAudioUnitBaseTests */,
-				5559601B1F69D0C0000893E3 /* DOAudioUnitBaseUITests */,
 				55595FF61F69D0C0000893E3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -92,8 +51,6 @@
 			isa = PBXGroup;
 			children = (
 				55595FF51F69D0C0000893E3 /* DOAudioUnitBase.app */,
-				5559600D1F69D0C0000893E3 /* DOAudioUnitBaseTests.xctest */,
-				555960181F69D0C0000893E3 /* DOAudioUnitBaseUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -112,24 +69,6 @@
 				555960071F69D0C0000893E3 /* main.m */,
 			);
 			path = DOAudioUnitBase;
-			sourceTree = "<group>";
-		};
-		555960101F69D0C0000893E3 /* DOAudioUnitBaseTests */ = {
-			isa = PBXGroup;
-			children = (
-				555960111F69D0C0000893E3 /* DOAudioUnitBaseTests.m */,
-				555960131F69D0C0000893E3 /* Info.plist */,
-			);
-			path = DOAudioUnitBaseTests;
-			sourceTree = "<group>";
-		};
-		5559601B1F69D0C0000893E3 /* DOAudioUnitBaseUITests */ = {
-			isa = PBXGroup;
-			children = (
-				5559601C1F69D0C0000893E3 /* DOAudioUnitBaseUITests.m */,
-				5559601E1F69D0C0000893E3 /* Info.plist */,
-			);
-			path = DOAudioUnitBaseUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -152,42 +91,6 @@
 			productReference = 55595FF51F69D0C0000893E3 /* DOAudioUnitBase.app */;
 			productType = "com.apple.product-type.application";
 		};
-		5559600C1F69D0C0000893E3 /* DOAudioUnitBaseTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 555960241F69D0C0000893E3 /* Build configuration list for PBXNativeTarget "DOAudioUnitBaseTests" */;
-			buildPhases = (
-				555960091F69D0C0000893E3 /* Sources */,
-				5559600A1F69D0C0000893E3 /* Frameworks */,
-				5559600B1F69D0C0000893E3 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				5559600F1F69D0C0000893E3 /* PBXTargetDependency */,
-			);
-			name = DOAudioUnitBaseTests;
-			productName = DOAudioUnitBaseTests;
-			productReference = 5559600D1F69D0C0000893E3 /* DOAudioUnitBaseTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		555960171F69D0C0000893E3 /* DOAudioUnitBaseUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 555960271F69D0C0000893E3 /* Build configuration list for PBXNativeTarget "DOAudioUnitBaseUITests" */;
-			buildPhases = (
-				555960141F69D0C0000893E3 /* Sources */,
-				555960151F69D0C0000893E3 /* Frameworks */,
-				555960161F69D0C0000893E3 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				5559601A1F69D0C0000893E3 /* PBXTargetDependency */,
-			);
-			name = DOAudioUnitBaseUITests;
-			productName = DOAudioUnitBaseUITests;
-			productReference = 555960181F69D0C0000893E3 /* DOAudioUnitBaseUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -200,16 +103,6 @@
 					55595FF41F69D0C0000893E3 = {
 						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Automatic;
-					};
-					5559600C1F69D0C0000893E3 = {
-						CreatedOnToolsVersion = 9.0;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 55595FF41F69D0C0000893E3;
-					};
-					555960171F69D0C0000893E3 = {
-						CreatedOnToolsVersion = 9.0;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 55595FF41F69D0C0000893E3;
 					};
 				};
 			};
@@ -227,8 +120,6 @@
 			projectRoot = "";
 			targets = (
 				55595FF41F69D0C0000893E3 /* DOAudioUnitBase */,
-				5559600C1F69D0C0000893E3 /* DOAudioUnitBaseTests */,
-				555960171F69D0C0000893E3 /* DOAudioUnitBaseUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -241,20 +132,6 @@
 				555960051F69D0C0000893E3 /* LaunchScreen.storyboard in Resources */,
 				555960021F69D0C0000893E3 /* Assets.xcassets in Resources */,
 				555960001F69D0C0000893E3 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5559600B1F69D0C0000893E3 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		555960161F69D0C0000893E3 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,36 +148,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		555960091F69D0C0000893E3 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				555960121F69D0C0000893E3 /* DOAudioUnitBaseTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		555960141F69D0C0000893E3 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5559601D1F69D0C0000893E3 /* DOAudioUnitBaseUITests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		5559600F1F69D0C0000893E3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 55595FF41F69D0C0000893E3 /* DOAudioUnitBase */;
-			targetProxy = 5559600E1F69D0C0000893E3 /* PBXContainerItemProxy */;
-		};
-		5559601A1F69D0C0000893E3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 55595FF41F69D0C0000893E3 /* DOAudioUnitBase */;
-			targetProxy = 555960191F69D0C0000893E3 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		55595FFE1F69D0C0000893E3 /* Main.storyboard */ = {
@@ -452,60 +300,6 @@
 			};
 			name = Release;
 		};
-		555960251F69D0C0000893E3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = DOAudioUnitBaseTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = net.oneill.DOAudioUnitBaseTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DOAudioUnitBase.app/DOAudioUnitBase";
-			};
-			name = Debug;
-		};
-		555960261F69D0C0000893E3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = DOAudioUnitBaseTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = net.oneill.DOAudioUnitBaseTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DOAudioUnitBase.app/DOAudioUnitBase";
-			};
-			name = Release;
-		};
-		555960281F69D0C0000893E3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = DOAudioUnitBaseUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = net.oneill.DOAudioUnitBaseUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = DOAudioUnitBase;
-			};
-			name = Debug;
-		};
-		555960291F69D0C0000893E3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = DOAudioUnitBaseUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = net.oneill.DOAudioUnitBaseUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = DOAudioUnitBase;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -523,24 +317,6 @@
 			buildConfigurations = (
 				555960221F69D0C0000893E3 /* Debug */,
 				555960231F69D0C0000893E3 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		555960241F69D0C0000893E3 /* Build configuration list for PBXNativeTarget "DOAudioUnitBaseTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				555960251F69D0C0000893E3 /* Debug */,
-				555960261F69D0C0000893E3 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		555960271F69D0C0000893E3 /* Build configuration list for PBXNativeTarget "DOAudioUnitBaseUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				555960281F69D0C0000893E3 /* Debug */,
-				555960291F69D0C0000893E3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
