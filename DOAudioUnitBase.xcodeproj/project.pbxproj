@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		551C6D021F6A3CD800011721 /* AKBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 551C6D011F6A3CD800011721 /* AKBase.m */; };
 		55595FFA1F69D0C0000893E3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 55595FF91F69D0C0000893E3 /* AppDelegate.m */; };
 		55595FFD1F69D0C0000893E3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55595FFC1F69D0C0000893E3 /* ViewController.m */; };
 		555960001F69D0C0000893E3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55595FFE1F69D0C0000893E3 /* Main.storyboard */; };
@@ -16,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		551C6D001F6A3CD800011721 /* AKBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AKBase.h; sourceTree = "<group>"; };
+		551C6D011F6A3CD800011721 /* AKBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AKBase.m; sourceTree = "<group>"; };
 		55595FF51F69D0C0000893E3 /* DOAudioUnitBase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DOAudioUnitBase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55595FF81F69D0C0000893E3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		55595FF91F69D0C0000893E3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -62,6 +65,8 @@
 				55595FF91F69D0C0000893E3 /* AppDelegate.m */,
 				55595FFB1F69D0C0000893E3 /* ViewController.h */,
 				55595FFC1F69D0C0000893E3 /* ViewController.m */,
+				551C6D001F6A3CD800011721 /* AKBase.h */,
+				551C6D011F6A3CD800011721 /* AKBase.m */,
 				55595FFE1F69D0C0000893E3 /* Main.storyboard */,
 				555960011F69D0C0000893E3 /* Assets.xcassets */,
 				555960031F69D0C0000893E3 /* LaunchScreen.storyboard */,
@@ -144,6 +149,7 @@
 			files = (
 				55595FFD1F69D0C0000893E3 /* ViewController.m in Sources */,
 				555960081F69D0C0000893E3 /* main.m in Sources */,
+				551C6D021F6A3CD800011721 /* AKBase.m in Sources */,
 				55595FFA1F69D0C0000893E3 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
