@@ -14,20 +14,8 @@
 @interface DOBus: AUAudioUnitBus
 @property AVAudioPCMBuffer *buffer;
 @end
-
 @implementation DOBus
 @end
-
-typedef struct {
-    AudioStreamBasicDescription *format;
-    AudioBufferList *buffer;
-    int hasData;
-} ChannelBuffer;
-
-typedef struct {
-    ChannelBuffer *buffers;
-    int count;
-} ChannelBufferArray;
 
 typedef struct {
     AudioStreamBasicDescription format;
@@ -45,7 +33,6 @@ void RenderBufferPrepare(RenderBuffer *inputBuffer, int frames) {
         inputBuffer->clientBuffer->mBuffers[i].mDataByteSize = frames * bytesPerFrame;
     }
 }
-
 
 typedef struct {
     int count;
@@ -67,6 +54,7 @@ void InputBuffersPrepare(InputBufferArray *inputBuffers, int frameCount) {
     AUAudioUnitBusArray *_inputBusses;
     AUAudioUnitBusArray *_outputBusses;
     InputBufferArray *_inputBuffers;
+    RenderBuffer _outputBuffer;
     DOBus *_outputBus;
 }
 
@@ -79,62 +67,54 @@ void InputBuffersPrepare(InputBufferArray *inputBuffers, int frameCount) {
     
     // Initialize a default format for the busses.
     AVAudioFormat *format = [[AVAudioFormat alloc] initStandardFormatWithSampleRate:44100.0 channels:2];
-    
     NSError *error = nil;
     
-    // Create the input and output bus arrays.
-    AUAudioUnitBus *inputBus = [[DOBus alloc]initWithFormat:format error:&error];
+    if (![self isGenerator]) {
+        AUAudioUnitBus *inputBus = [[DOBus alloc]initWithFormat:format error:&error];
+        AUAudioUnitBus *inputBus2 = [[DOBus alloc]initWithFormat:format error:&error];
+
+        _inputBusses  = [[AUAudioUnitBusArray alloc] initWithAudioUnit:self
+                                                               busType:AUAudioUnitBusTypeInput
+                                                                busses: @[inputBus,inputBus2]];
+        
+    }
+    
     _outputBus = [[DOBus alloc]initWithFormat:format error:&error];
-    
     if (error) NSLog(@"error %@",error);
-    
-    _inputBusses  = [[AUAudioUnitBusArray alloc] initWithAudioUnit:self
-                                                           busType:AUAudioUnitBusTypeInput
-                                                            busses: @[inputBus]];
-    
     _outputBusses = [[AUAudioUnitBusArray alloc] initWithAudioUnit:self
                                                            busType:AUAudioUnitBusTypeOutput
                                                             busses: @[_outputBus]];
-    
+    self.renderResourcesAllocated = false;
     return self;
 }
-
+-(BOOL)renderResourcesAllocated {
+    return true;
+}
+-(BOOL)isGenerator {
+    return self.componentDescription.componentType == kAudioUnitType_Generator;
+}
 // Allocate resources required to render.
 // Hosts must call this to initialize the AU before beginning to render.
 - (BOOL)allocateRenderResourcesAndReturnError:(NSError **)outError {
+
     if (![super allocateRenderResourcesAndReturnError:outError]) {
         return NO;
+    }
+    if (!_outputBus.buffer || ![_outputBus.buffer.format isEqual:_outputBus.format]) {
+        for (DOBus *inputBus in _inputBusses) {
+            if (!inputBus.buffer || [inputBus.buffer.format isEqual:inputBus.format]) {
+                inputBus.buffer = [[AVAudioPCMBuffer alloc]initWithPCMFormat:inputBus.format frameCapacity:self.maximumFramesToRender];
+            }
+        }
     }
     
     if (!_outputBus.buffer || ![_outputBus.buffer.format isEqual:_outputBus.format]) {
         _outputBus.buffer = [[AVAudioPCMBuffer alloc]initWithPCMFormat:_outputBus.format frameCapacity:self.maximumFramesToRender];
     }
-    for (DOBus *inputBus in _inputBusses) {
-        if (!inputBus.buffer || [inputBus.buffer.format isEqual:inputBus.format]) {
-            inputBus.buffer = [[AVAudioPCMBuffer alloc]initWithPCMFormat:inputBus.format frameCapacity:self.maximumFramesToRender];
-        }
-    }
     [self setRenderBuffers];
+    self.renderResourcesAllocated = true;
     return YES;
 }
-
-typedef void(^ProcessEventsBlock)(AudioBufferList       *inBuffer,
-                                  AudioBufferList       *outBuffer,
-                                  const AudioTimeStamp  *timestamp,
-                                  int                   frameCount,
-                                  const AURenderEvent   *realtimeEventListHead);
-
-
-
-
-
-
-
-typedef void (^MultiChannelProccessBlock)(ChannelBufferArray    *inputChannels,
-                                          ChannelBuffer         *outputChannel,
-                                          const AudioTimeStamp  *timestamp,
-                                          int                   frameCount,
-                                          const AURenderEvent   *realtimeEventListHead);
 
 -(ProcessEventsBlock)processEventsBlock {
     
@@ -158,21 +138,19 @@ typedef void (^MultiChannelProccessBlock)(ChannelBufferArray    *inputChannels,
     // (format->mFormatFlags & kLinearPCMFormatFlagIsFloat) means they're floats else ints
     // format->mBytesPerFrame is sample size
     
-    
     return ^(ChannelBufferArray    *inputChannels,
              ChannelBuffer         *outputChannel,
              const AudioTimeStamp  *timestamp,
              int                   frameCount,
              const AURenderEvent   *realtimeEventListHead) {
-      
-    
         
         AudioBufferList *output = outputChannel->buffer;
         for (int bus = 0; bus < inputChannels->count; bus++) {
             AudioBufferList *inputBuffer = inputChannels->buffers[bus].buffer;
             for (int i = 0; i < inputBuffer->mNumberBuffers; i++) {
-                vDSP_vadd(inputBuffer->mBuffers[i].mData, 1, output->mBuffers[i].mData, i, output->mBuffers[i].mData, 1, frameCount);
+                vDSP_vadd(inputBuffer->mBuffers[i].mData, 1, output->mBuffers[i].mData, 1, output->mBuffers[i].mData, 1, frameCount);
             }
+
         }
     };
 }
@@ -187,96 +165,111 @@ typedef void (^MultiChannelProccessBlock)(ChannelBufferArray    *inputChannels,
         inputBuffer->backingBuffer = bus.buffer.audioBufferList;
         inputBuffer->clientBuffer = bus.buffer.mutableAudioBufferList;
         inputBuffer->format = *bus.buffer.format.streamDescription;
+        inputBuffer->enabled = bus.enabled;
     }
     newBuffers->count = bufferCount;
     _inputBuffers = newBuffers;
     if (oldBuffers) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)),
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)),
                        dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-                           
                            free(oldBuffers);
         });
     }
+    _outputBuffer = (RenderBuffer){
+        .format = *_outputBus.format.streamDescription,
+        .backingBuffer = _outputBus.buffer.audioBufferList,
+        .clientBuffer = _outputBus.buffer.mutableAudioBufferList,
+        .enabled = true
+    };
     
 }
 
 // Subclassers must provide a AUInternalRenderBlock (via a getter) to implement rendering.
 - (AUInternalRenderBlock)internalRenderBlock {
     
-    InputBufferArray *renderBuffers = _inputBuffers;
-    __block RenderBuffer outputBuffer = {
-        .format = *_outputBus.format.streamDescription,
-        .backingBuffer = _outputBus.buffer.audioBufferList,
-        .clientBuffer = _outputBus.buffer.mutableAudioBufferList,
-        .enabled = true
-    };
-    ProcessEventsBlock processEvents = [self processEventsBlock];
-    
-    MultiChannelProccessBlock multiChannelProcess = [self multiChannelProccessBlock];
-    
-    return ^AUAudioUnitStatus(
-                              AudioUnitRenderActionFlags *actionFlags,
-                              const AudioTimeStamp       *timestamp,
-                              AVAudioFrameCount           frameCount,
-                              NSInteger                   outputBusNumber,
-                              AudioBufferList            *outputData,
-                              const AURenderEvent        *realtimeEventListHead,
-                              AURenderPullInputBlock      pullInputBlock) {
+    static AUInternalRenderBlock internalRenderBlock = nil;
+    if (!internalRenderBlock) {
         
-        InputBufferArray *inputBuffers = renderBuffers; // <-- Here's the atomic swap;  Goal is to be able to increase _inputBusses count.
+        InputBufferArray **renderBuffers = &_inputBuffers;
+        RenderBuffer *outputBuffer = &_outputBuffer;
+        ProcessEventsBlock processEvents = [self processEventsBlock];
         
-        InputBuffersPrepare(inputBuffers, frameCount);
-        RenderBufferPrepare(&outputBuffer, frameCount);
-        ChannelBuffer clientBuffers[inputBuffers->count];
+        MultiChannelProccessBlock multiChannelProcess = [self multiChannelProccessBlock];
         
-        
-        AudioUnitRenderActionFlags flags = 0;
-        AUAudioUnitStatus status = 0;
-        for (int i = 0; i < inputBuffers->count; i ++) {
-            RenderBuffer *inputBuffer = &inputBuffers->buffers[i];
-            ChannelBuffer *clientBuffer = &clientBuffers[i];
-            clientBuffer->hasData = false;
-            clientBuffer->buffer = inputBuffer->clientBuffer;
-            clientBuffer->format = &inputBuffer->format;
-            if (!inputBuffer->enabled) {
-                continue;
-            }
-            status = pullInputBlock(&flags, timestamp, frameCount, i, inputBuffer->clientBuffer);
-            if (status == 0) {
-                clientBuffer->hasData = true;
-            }
-            else {
-                if (status != kAudioUnitErr_NoConnection) {
+        internalRenderBlock = ^AUAudioUnitStatus(
+                                  AudioUnitRenderActionFlags *actionFlags,
+                                  const AudioTimeStamp       *timestamp,
+                                  AVAudioFrameCount           frameCount,
+                                  NSInteger                   outputBusNumber,
+                                  AudioBufferList            *outputData,
+                                  const AURenderEvent        *realtimeEventListHead,
+                                  AURenderPullInputBlock      pullInputBlock) {
+            
+            
+            InputBufferArray *inputBuffers = *renderBuffers; // <-- Here's the atomic swap;  Goal is to be able to increase _inputBusses count in the future.
+            
+            InputBuffersPrepare(inputBuffers, frameCount);
+            RenderBufferPrepare(outputBuffer, frameCount);
+            
+            ChannelBuffer clientBuffers[inputBuffers->count + 1];
+            
+            
+            for (int i = 0; i < inputBuffers->count; i ++) {
+                RenderBuffer *inputBuffer = &inputBuffers->buffers[i];
+                ChannelBuffer *clientBuffer = &clientBuffers[i];
+                clientBuffer->hasData = false;
+                clientBuffer->buffer = inputBuffer->clientBuffer;
+                clientBuffer->format = &inputBuffer->format;
+                if (!inputBuffer->enabled) {
+                    continue;
+                }
+                AudioUnitRenderActionFlags flags = 0;
+                AUAudioUnitStatus status = pullInputBlock(&flags, timestamp, frameCount, i, inputBuffer->clientBuffer);
+                clientBuffer->hasData = status == 0;
+                if (status && status != kAudioUnitErr_NoConnection) {
                     return status;
                 }
-                status = 0;
             }
             
-        }
-        
-        AudioBufferList *outAudioBufferList = outputData;
-        if (outAudioBufferList->mBuffers[0].mData == NULL) {
-            for (UInt32 i = 0; i < outAudioBufferList->mNumberBuffers; ++i) {
-                outAudioBufferList->mBuffers[i].mData = outputBuffer.clientBuffer->mBuffers[i].mData;
-                memset(outAudioBufferList->mBuffers[i].mData, 0, outAudioBufferList->mBuffers[i].mDataByteSize);
+            AudioBufferList *outAudioBufferList = outputData;
+            if (outAudioBufferList->mBuffers[0].mData == NULL) {
+                for (UInt32 i = 0; i < outAudioBufferList->mNumberBuffers; ++i) {
+                    outAudioBufferList->mBuffers[i].mData = outputBuffer->clientBuffer->mBuffers[i].mData;
+                }
             }
-        }
-        ChannelBufferArray channelBuffers;
-        channelBuffers.count = inputBuffers->count;
-        channelBuffers.buffers = clientBuffers;
-        
-        ChannelBuffer outputChannel;
-        outputChannel.buffer = outAudioBufferList;
-        outputChannel.format = &outputBuffer.format;
-        
-        if (multiChannelProcess) {
-            multiChannelProcess(&channelBuffers, &outputChannel, timestamp, frameCount, realtimeEventListHead);
-        }
-        else if (processEvents) {
-            processEvents(channelBuffers.buffers[0].buffer,outAudioBufferList,timestamp,frameCount,realtimeEventListHead);
-        }
-        return noErr;
-    };
+            
+            ChannelBufferArray channelBuffers;
+            channelBuffers.count = inputBuffers->count;
+            channelBuffers.buffers = clientBuffers;
+            
+            ChannelBuffer outputChannel;
+            outputChannel.buffer = outAudioBufferList;
+            outputChannel.format = &outputBuffer->format;
+            
+            // Clear the output buffer from last render.
+            for (int i = 0; i < outAudioBufferList->mNumberBuffers; i++) {
+                memset(outAudioBufferList->mBuffers[i].mData, 0, outputBuffer->clientBuffer->mBuffers[i].mDataByteSize);
+            }
+            if (multiChannelProcess) {
+                multiChannelProcess(&channelBuffers,
+                                    &outputChannel,
+                                    timestamp,
+                                    frameCount,
+                                    realtimeEventListHead);
+            }
+            else if (processEvents) {
+                AudioBufferList *inputBufferList = channelBuffers.count ? channelBuffers.buffers[0].buffer : NULL;
+                processEvents(inputBufferList,
+                              outAudioBufferList,
+                              timestamp,
+                              frameCount,
+                              realtimeEventListHead);
+            }
+            return noErr;
+        };
+    }
+    return internalRenderBlock;
+    
 }
 -(AUAudioUnitBusArray *)inputBusses {
     return _inputBusses;
@@ -284,4 +277,49 @@ typedef void (^MultiChannelProccessBlock)(ChannelBufferArray    *inputChannels,
 -(AUAudioUnitBusArray *)outputBusses {
     return _outputBusses;
 }
+
++(AudioComponentDescription)componentDescription {
+    AudioComponentDescription description = {0};
+    description.componentManufacturer = fourCharCode("AuKt");
+    description.componentSubType = fourCharCode("derp");
+    description.componentType = kAudioUnitType_Effect;
+    return description;
+}
+
++(__kindof AVAudioUnit *)AVAudioUnitWithName:(NSString *)name {
+    name = name ?: NSStringFromClass(self.class);
+    AudioComponentDescription description = [self.class componentDescription];
+    [AUAudioUnit registerSubclass:self.class asComponentDescription:description name:name version:3];
+    __block AVAudioUnit *avAudioUnit = nil;
+    [AVAudioUnit instantiateWithComponentDescription:description
+                                             options:0
+                                   completionHandler:^(AVAudioUnit *audioUnit, NSError *error) {
+                                       if (error) {
+                                           NSLog(@"%@ instatiateAVAudioUnitWithName %@", NSStringFromClass(self.class), error);
+                                       }
+                                       avAudioUnit = audioUnit;
+                                   }];
+    return avAudioUnit;
+}
+
+static UInt32 fourCharCode(char str[4]) {
+    return (UInt32)str[0] << 24 | (UInt32)str[1] << 16 | (UInt32)str[2] << 8  | (UInt32)str[3];
+}
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
