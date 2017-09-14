@@ -13,6 +13,7 @@
 		555960021F69D0C0000893E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 555960011F69D0C0000893E3 /* Assets.xcassets */; };
 		555960051F69D0C0000893E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 555960031F69D0C0000893E3 /* LaunchScreen.storyboard */; };
 		555960081F69D0C0000893E3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 555960071F69D0C0000893E3 /* main.m */; };
+		5559602C1F69D1A0000893E3 /* DOAudioUnitBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5559602B1F69D1A0000893E3 /* DOAudioUnitBase.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,8 @@
 		555960041F69D0C0000893E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		555960061F69D0C0000893E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		555960071F69D0C0000893E3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		5559602A1F69D1A0000893E3 /* DOAudioUnitBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DOAudioUnitBase.h; sourceTree = "<group>"; };
+		5559602B1F69D1A0000893E3 /* DOAudioUnitBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DOAudioUnitBase.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +65,8 @@
 				55595FF91F69D0C0000893E3 /* AppDelegate.m */,
 				55595FFB1F69D0C0000893E3 /* ViewController.h */,
 				55595FFC1F69D0C0000893E3 /* ViewController.m */,
+				5559602A1F69D1A0000893E3 /* DOAudioUnitBase.h */,
+				5559602B1F69D1A0000893E3 /* DOAudioUnitBase.m */,
 				55595FFE1F69D0C0000893E3 /* Main.storyboard */,
 				555960011F69D0C0000893E3 /* Assets.xcassets */,
 				555960031F69D0C0000893E3 /* LaunchScreen.storyboard */,
@@ -142,6 +147,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5559602C1F69D1A0000893E3 /* DOAudioUnitBase.m in Sources */,
 				55595FFD1F69D0C0000893E3 /* ViewController.m in Sources */,
 				555960081F69D0C0000893E3 /* main.m in Sources */,
 				55595FFA1F69D0C0000893E3 /* AppDelegate.m in Sources */,
